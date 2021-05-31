@@ -1,10 +1,10 @@
+import os
 import sys
 
 from PIL import ImageGrab
 from PyQt5.QtWidgets import QWidget, QFileDialog, QApplication, QMessageBox
 
 def saveFileDialog():
-    options = QFileDialog.Options()
     widget = QWidget()
 
     image = ImageGrab.grabclipboard()
@@ -12,7 +12,8 @@ def saveFileDialog():
         QMessageBox.critical(widget, "Error", "There is no image in the clipboard")
         return
 
-    fileName, _ = QFileDialog.getSaveFileName(widget, "Save image", "image.png", "PNG (*.png)", options=options)
+    desktopPath = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop')
+    fileName, _ = QFileDialog.getSaveFileName(widget, "Save image", f"{desktopPath}\image.png", "PNG (*.png)")
 
     if fileName:
         image.save(fileName, "PNG")
